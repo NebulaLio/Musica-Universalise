@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#03040b">
+  <meta name="description" content="音樂宇宙 Musica Universalis：一座可以漫遊的音樂史星圖。七顆行星，七個時代，二十一條支流。">
+  <title>音樂宇宙 · Musica Universalis</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='32' fill='%23050610'/%3E%3Ccircle cx='32' cy='32' r='3' fill='%23f2d7ad'/%3E%3Cellipse cx='32' cy='32' rx='24' ry='10' transform='rotate(-24 32 32)' fill='none' stroke='%23ead2b1' stroke-opacity='.65' stroke-width='1.5'/%3E%3Ccircle cx='51' cy='20' r='3' fill='%23b9a7ff'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="worlds.css">
+  <link rel="stylesheet" href="universe-nav.css">
+</head>
+<body class="is-intro">
+  <div class="scene" aria-hidden="true">
+    <canvas id="galaxyCanvas"></canvas>
+    <div class="scene__vignette"></div>
+    <div class="scene__grain"></div>
+  </div>
+
+  <div class="warp" id="warp" aria-hidden="true"></div>
+
+  <header class="topbar" id="topbar">
+    <a class="brand" href="#galaxy" id="brand" aria-label="音樂宇宙，回到星圖">
+      <span class="brand__sigil" aria-hidden="true">
+        <svg viewBox="0 0 40 40" fill="none">
+          <circle cx="20" cy="20" r="2.2" fill="#f4d7ab"/>
+          <ellipse cx="20" cy="20" rx="14.5" ry="6.6" stroke="rgba(244,215,171,.55)" stroke-width=".8" transform="rotate(-24 20 20)"/>
+          <ellipse cx="20" cy="20" rx="14.5" ry="6.6" stroke="rgba(164,188,255,.35)" stroke-width=".8" transform="rotate(42 20 20)"/>
+          <circle cx="32" cy="14" r="1.5" fill="#b9a7ff"/>
+        </svg>
+      </span>
+      <span class="brand__text">
+        <span class="brand__en">MUSICA UNIVERSALIS</span>
+        <span class="brand__zh">音樂宇宙 · 互動星圖</span>
+      </span>
+    </a>
+
+    <div class="topbar__meta">
+      <span class="topbar__count"><i aria-hidden="true"></i><span>07 ERAS · 21 BRANCHES</span></span>
+      <button class="icon-btn" id="replayBtn" type="button" aria-label="重播開場動畫">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M4.8 9.2A8 8 0 1 1 4 13" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+          <path d="M4.4 4.5v4.8h4.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>重播序章</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="intro" id="intro">
+    <div class="intro__inner">
+      <p class="intro__eyebrow">AN INTERACTIVE ATLAS OF MUSICAL TIME</p>
+      <h1 class="intro__title" aria-label="音樂宇宙">
+        <span>音樂</span><span class="intro__title-em">宇宙</span>
+      </h1>
+      <p class="intro__en">MUSICA UNIVERSALIS</p>
+      <p class="intro__sub">七個時代，正沿著同一道螺旋醒來。</p>
+    </div>
+    <div class="intro__progress" aria-hidden="true"><span id="introBar"></span></div>
+    <p class="intro__status" id="introStatus"><span class="intro__pulse" aria-hidden="true"></span>正在凝聚星塵</p>
+    <button class="intro__skip" id="skipBtn" type="button">跳過序章 <span aria-hidden="true">↗</span></button>
+  </div>
+
+  <main class="stage" id="stage">
+    <svg class="era-route" id="eraRoute" aria-hidden="true"></svg>
+
+    <section class="stage__copy" aria-labelledby="galaxyTitle">
+      <p class="eyebrow"><span class="eyebrow__line" aria-hidden="true"></span>THE MUSIC GALAXY / 001</p>
+      <h1 class="stage__title" id="galaxyTitle"><span>音樂</span><em>宇宙</em></h1>
+      <p class="stage__lede">一束聲音在時間裡膨脹，<br>成為一座緩慢旋轉的星系。</p>
+      <p class="stage__guide"><span class="stage__guide-mark" aria-hidden="true">✦</span>點擊任一顆行星，<br>沿著引力進入它自己的世界。</p>
+      <dl class="stage__stats">
+        <div><dt>07</dt><dd>音樂時代</dd></div>
+        <div><dt>21</dt><dd>分支航道</dd></div>
+        <div><dt>∞</dt><dd>聆聽可能</dd></div>
+      </dl>
+    </section>
+
+    <div class="core" id="core" aria-hidden="true">
+      <span class="core__halo"></span>
+      <span class="core__ring"></span>
+      <span class="core__ring core__ring--two"></span>
+      <span class="core__dot"></span>
+      <span class="core__label">THE CORE<br><b>和聲</b></span>
+    </div>
+
+    <div class="planets" id="planets" aria-label="音樂時代行星"></div>
+
+    <p class="stage__hint" id="stageHint">
+      <span class="stage__hint-icon" aria-hidden="true"><i></i></span>
+      <span>點擊行星 · 進入它的小世界</span>
+    </p>
+
+    <p class="stage__coords" aria-hidden="true">25.03° N / 121.56° E<br><span>TAIPEI · STAR MAP 001</span></p>
+
+    <a class="universe-link" href="universe-2.html" data-universe-link
+       data-universe-title="流行宇宙" data-universe-sub="POP COSMOS · 環形星系 002"
+       data-universe-code="UNIVERSE II" data-universe-number="II"
+       data-universe-from="001" data-universe-to="002"
+       data-universe-accent="#ff9fd6" data-universe-accent-rgb="255, 159, 214"
+       aria-label="前往下一個宇宙：流行宇宙">
+      <span class="universe-link__eyebrow">NEXT UNIVERSE</span>
+      <span class="universe-link__name">流行宇宙 <i aria-hidden="true">↗</i></span>
+    </a>
+  </main>
+
+  <!-- Legacy single-panel fallback, only used if worlds.js is unavailable. -->
+  <section class="era-view" id="eraView" role="dialog" aria-modal="true" aria-labelledby="eraTitle" aria-hidden="true" inert>
+    <div class="era-view__bg" aria-hidden="true">
+      <span class="era-orb"></span>
+      <span class="era-orbit era-orbit--a"></span>
+      <span class="era-orbit era-orbit--b"></span>
+      <span class="era-watermark" id="eraWatermark">01</span>
+      <span class="era-stars"></span>
+    </div>
+
+    <div class="era-shell">
+      <header class="era-top">
+        <button class="back-btn" id="backBtn" type="button">
+          <span class="back-btn__arrow" aria-hidden="true">←</span>
+          <span>返回銀河</span>
+        </button>
+        <p class="era-index">ERA <b id="eraIndex">01</b> <span>/ 07</span></p>
+        <p class="era-en" id="eraEn">MEDIEVAL</p>
+      </header>
+
+      <div class="era-content" id="eraContent">
+        <div class="era-main">
+          <p class="era-kicker" id="eraKicker">THE AGE OF CHANT</p>
+          <h2 class="era-title" id="eraTitle"><span id="eraName">中世紀</span><em id="eraTagline">聖詠的微光</em></h2>
+          <p class="era-years" id="eraYears">約 500 — 1400</p>
+          <p class="era-desc" id="eraDesc"></p>
+          <blockquote class="era-quote" id="eraQuote"></blockquote>
+          <ul class="era-traits" id="eraTraits" aria-label="時代特徵"></ul>
+
+          <div class="player" id="player">
+            <button class="player__btn" id="playBtn" type="button" aria-label="播放聲音樣本" aria-pressed="false">
+              <span class="player__icon" aria-hidden="true"><i></i></span>
+            </button>
+            <div class="player__body">
+              <div class="player__label">
+                <span id="playerTitle">聲音樣本 · 聖詠回響</span>
+                <span class="player__meta" id="playerMeta">即時合成 / ∞</span>
+              </div>
+              <div class="player__eq" aria-hidden="true">
+                <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+              </div>
+            </div>
+            <span class="player__status" id="playerStatus">PLAY</span>
+          </div>
+        </div>
+
+        <aside class="era-side">
+          <section class="branches" aria-labelledby="branchesTitle">
+            <div class="section-head">
+              <h3 id="branchesTitle">三條支流</h3>
+              <span>BRANCHES</span>
+            </div>
+            <div class="branches__list" id="branchList" role="tablist" aria-label="時代分支"></div>
+            <div class="branch-detail" id="branchDetail" role="tabpanel">
+              <p class="branch-detail__tag" id="branchTag"></p>
+              <h4 id="branchTitle"></h4>
+              <p id="branchText"></p>
+            </div>
+          </section>
+
+          <section class="composers" aria-labelledby="composersTitle">
+            <div class="section-head">
+              <h3 id="composersTitle">代表作曲家</h3>
+              <span>COMPOSERS</span>
+            </div>
+            <ol id="composerList"></ol>
+          </section>
+        </aside>
+      </div>
+
+      <footer class="era-footer">
+        <button class="era-nav" id="prevBtn" type="button">
+          <span class="era-nav__arrow" aria-hidden="true">←</span>
+          <span class="era-nav__text"><small>PREVIOUS</small><b id="prevName">中世紀</b></span>
+        </button>
+        <p class="era-footer__hint">ESC 返回星圖</p>
+        <button class="era-nav era-nav--next" id="nextBtn" type="button">
+          <span class="era-nav__text"><small>NEXT</small><b id="nextName">文藝復興</b></span>
+          <span class="era-nav__arrow" aria-hidden="true">→</span>
+        </button>
+      </footer>
+    </div>
+  </section>
+
+  <section class="world" id="worldView" role="dialog" aria-modal="true" aria-labelledby="worldTitle" aria-hidden="true" inert>
+    <div class="world__backdrop" aria-hidden="true"></div>
+    <div class="world__grain" aria-hidden="true"></div>
+    <div class="world-shell">
+      <header class="world-top">
+        <button class="world-back" id="worldBack" type="button">
+          <span class="world-back__arrow" aria-hidden="true">←</span>
+          <span>返回星圖</span>
+        </button>
+        <p class="world-index"><span>WORLD</span> <b id="worldIndex">01</b> <em>/ 07</em></p>
+        <p class="world-en" id="worldEn">MEDIEVAL</p>
+      </header>
+
+      <div class="world-stage" id="worldStage"></div>
+
+      <footer class="world-foot">
+        <button class="world-nav" id="worldPrev" type="button">
+          <span class="world-nav__arrow" aria-hidden="true">←</span>
+          <span class="world-nav__text"><small>PREVIOUS WORLD</small><b id="worldPrevName">當代</b></span>
+        </button>
+        <p class="world-foot__hint">ESC 返回星圖</p>
+        <button class="world-nav world-nav--next" id="worldNext" type="button">
+          <span class="world-nav__text"><small>NEXT WORLD</small><b id="worldNextName">文藝復興</b></span>
+          <span class="world-nav__arrow" aria-hidden="true">→</span>
+        </button>
+      </footer>
+    </div>
+  </section>
+
+  <div class="world-warp" id="worldWarp" aria-hidden="true"></div>
+
+  <noscript>
+    <div class="noscript">這座星系需要 JavaScript 才能旋轉。請開啟 JavaScript 後重新載入。</div>
+  </noscript>
+
+  <script src="app.js"></script>
+  <script src="worlds.js"></script>
+  <script src="universe-nav.js"></script>
+</body>
+</html>
