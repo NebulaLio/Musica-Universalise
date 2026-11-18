@@ -3,6 +3,36 @@
   'use strict';
 
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const CURRENT_FILE = (window.location.pathname.split('/').pop() || 'index.html').split('#')[0];
+  const TARGETS = {
+    'index.html': {
+      title: '藝術音樂',
+      subtitle: 'THE ART MUSIC GALAXY · 螺旋星系 001',
+      code: 'UNIVERSE I',
+      number: 'I',
+      step: '001',
+      accent: '#e8c79e',
+      accentRgb: '232, 199, 158'
+    },
+    'universe-2.html': {
+      title: '流行宇宙',
+      subtitle: 'POP COSMOS · 環形星系 002',
+      code: 'UNIVERSE II',
+      number: 'II',
+      step: '002',
+      accent: '#ff9fd6',
+      accentRgb: '255, 159, 214'
+    },
+    'universe-3.html': {
+      title: '媒介宇宙',
+      subtitle: 'MEDIA COSMOS · 訊號網絡 003',
+      code: 'UNIVERSE III',
+      number: 'III',
+      step: '003',
+      accent: '#7fe3d2',
+      accentRgb: '127, 227, 210'
+    }
+  };
   const STATUS_STEPS = [
     '建立星際航道',
     '壓縮星系座標',
@@ -14,14 +44,17 @@
   function startLoader(link, href) {
     if (document.querySelector('.universe-loader')) return;
 
-    const title = link.dataset.universeTitle || '另一個宇宙';
-    const subtitle = link.dataset.universeSub || 'INTERSTELLAR TRANSFER';
-    const code = link.dataset.universeCode || 'UNIVERSE';
-    const number = link.dataset.universeNumber || '';
-    const from = link.dataset.universeFrom || '001';
-    const to = link.dataset.universeTo || '002';
-    const accent = link.dataset.universeAccent || '#e8c79e';
-    const accentRgb = link.dataset.universeAccentRgb || '232, 199, 158';
+    const targetFile = href.split('/').pop().split('#')[0];
+    const target = TARGETS[targetFile] || {};
+    const current = TARGETS[CURRENT_FILE] || {};
+    const title = link.dataset.universeTitle || target.title || '另一個宇宙';
+    const subtitle = link.dataset.universeSub || target.subtitle || 'INTERSTELLAR TRANSFER';
+    const code = link.dataset.universeCode || target.code || 'UNIVERSE';
+    const number = link.dataset.universeNumber || target.number || '';
+    const from = link.dataset.universeFrom || current.step || '001';
+    const to = link.dataset.universeTo || target.step || '002';
+    const accent = link.dataset.universeAccent || target.accent || '#e8c79e';
+    const accentRgb = link.dataset.universeAccentRgb || target.accentRgb || '232, 199, 158';
 
     const loader = document.createElement('div');
     loader.className = 'universe-loader';
@@ -127,9 +160,15 @@
     if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     if (document.querySelector('.universe-loader')) return;
 
-    event.preventDefault();
     const href = link.getAttribute('href');
     if (!href) return;
+    const targetFile = href.split('/').pop().split('#')[0];
+    if (targetFile === CURRENT_FILE) {
+      event.preventDefault();
+      return;
+    }
+
+    event.preventDefault();
     startLoader(link, href);
   });
 })();
