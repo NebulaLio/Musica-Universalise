@@ -75,6 +75,32 @@ body.is-ready .universe-link {
   transform: translate(-2px, -2px);
 }
 
+.nexus-home {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 18px;
+  padding: 0 7px;
+  margin-right: 4px;
+  border: 1px solid rgba(127, 227, 210, 0.16);
+  border-radius: 3px;
+  color: rgba(127, 227, 210, 0.56);
+  font-family: var(--mono);
+  font-size: 5.5px;
+  letter-spacing: 0.13em;
+  text-decoration: none;
+  pointer-events: auto;
+  transition: color 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+}
+
+.nexus-home:hover,
+.nexus-home:focus-visible {
+  outline: none;
+  color: var(--nexus-aqua, #7fe3d2);
+  border-color: rgba(127, 227, 210, 0.44);
+  background: rgba(127, 227, 210, 0.05);
+}
+
 .universe-index {
   display: flex;
   align-items: center;
@@ -468,6 +494,14 @@ body.is-ready .universe-link {
 
   .universe-link__name {
     font-size: 0.75rem;
+    letter-spacing: 0.08em;
+  }
+
+  .nexus-home {
+    min-height: 16px;
+    padding: 0 5px;
+    margin-right: 1px;
+    font-size: 5px;
     letter-spacing: 0.08em;
   }
 

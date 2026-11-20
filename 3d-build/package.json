@@ -1,0 +1,12 @@
+{
+  "name": "music-nexus-build",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "build": "esbuild src/nexus.js --bundle --minify --format=iife --target=es2020 --outfile=../nexus.bundle.js"
+  },
+  "dependencies": {
+    "esbuild": "^0.28.2",
+    "three": "^0.187.0"
+  }
+}

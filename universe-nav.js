@@ -6,6 +6,15 @@
   const CURRENT_FILE = (window.location.pathname.split('/').pop() || 'index.html').split('#')[0];
   const TARGETS = {
     'index.html': {
+      title: '星際樞紐',
+      subtitle: 'SPATIAL NEXUS · 004',
+      code: 'NEXUS',
+      number: 'IV',
+      step: '004',
+      accent: '#7fe3d2',
+      accentRgb: '127, 227, 210'
+    },
+    'classic.html': {
       title: '藝術音樂',
       subtitle: 'THE ART MUSIC GALAXY · 螺旋星系 001',
       code: 'UNIVERSE I',
